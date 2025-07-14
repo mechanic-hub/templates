@@ -1,0 +1,25 @@
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+
+stages:
+  - linter
+  - audit
+  - build
+
+include:
+  - project: 'devops_users_repos/6586/templates'
+    file: '.gitlab-ci/docker-lint.yml'
+  - project: 'devops_users_repos/6586/templates'
+    file: '.gitlab-ci/yarn-audit.yml'
+  - project: 'devops_users_repos/6586/templates'
+    file: '.gitlab-ci/docker-build.yml'
+
+docker-lint-job:
+  extends: .docker-lint-template
+
+yarn-audit-job:
+  extends: .yarn-audit-template
+
+build-job:
+  extends: .build-template
